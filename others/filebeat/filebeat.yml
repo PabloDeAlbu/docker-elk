@@ -1,0 +1,21 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+processors:
+  - add_cloud_metadata: ~
+  - add_docker_metadata: ~
+
+filebeat.prospectors:
+- type: log
+  paths:
+   - '/var/log/docker/*.log'
+  json.message_key: log
+  json.keys_under_root: true
+  processors:
+  - add_docker_metadata: ~
+
+output.logstash:
+  # The Logstash hosts
+  hosts: ["elk_logstash:5044"]
