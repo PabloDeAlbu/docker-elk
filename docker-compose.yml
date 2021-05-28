@@ -2,6 +2,7 @@ version: '3.2'
 
 services:
   elasticsearch:
+    container_name: ${PROJECT_NAME}_elasticsearch
     build:
       context: elasticsearch/
       args:
@@ -27,6 +28,7 @@ services:
       - elk
 
   logstash:
+    container_name: ${PROJECT_NAME}_logstash
     build:
       context: logstash/
       args:
@@ -40,6 +42,9 @@ services:
         source: ./logstash/pipeline
         target: /usr/share/logstash/pipeline
         read_only: true
+      - type: bind
+        source: ./logstash/dumps
+        target: /usr/share/logstash/dumps
     ports:
       - "5044:5044"
       - "5000:5000/tcp"
@@ -53,6 +58,7 @@ services:
       - elasticsearch
 
   kibana:
+    container_name: ${PROJECT_NAME}_kibana
     build:
       context: kibana/
       args:
