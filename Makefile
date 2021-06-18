@@ -6,33 +6,54 @@ default: up
 up:
 	@echo "Starting up containers for $(PROJECT_NAME)..."
 	docker-compose pull
-	docker-compose up -d --remove-orphans
+	docker-compose -f docker-compose.yml -f docker-compose-sources.yml up -d 
+
+up-elk:
+	@echo "Starting up containers for $(PROJECT_NAME)..."
+	docker-compose pull
+	docker-compose -f docker-compose.yml up -d 
+
+up-sources:
+	@echo "Starting up containers for $(PROJECT_NAME)..."
+	docker-compose pull
+	docker-compose -f docker-compose-sources.yml up -d 
 
 force-recreate:
 	@echo "Starting up containers for $(PROJECT_NAME)..."
 	docker-compose pull
-	docker-compose up -d --force-recreate --remove-orphans
+	docker-compose  -f docker-compose.yml -f docker-compose-sources.yml up -d --force-recreate 
 
 down: stop
 
 stop:
 	@echo "Stopping containers for $(PROJECT_NAME)..."
-	@docker-compose stop
+	@docker-compose -f docker-compose.yml -f docker-compose-sources.yml stop
+
+stop-elk:
+	@echo "Stopping containers for $(PROJECT_NAME)..."
+	@docker-compose  -f docker-compose.yml stop
+
+stop-sources:
+	@echo "Stopping containers for $(PROJECT_NAME)..."
+	@docker-compose -f docker-compose-sources.yml stop
 
 logs:
-	@echo "Stopping containers for $(PROJECT_NAME)..."
-	@docker-compose logs -f --tail=10
+	@docker-compose -f docker-compose.yml -f docker-compose-sources.yml  logs -f --tail=10
 
 log:
 	@docker logs -f --tail=10 $(PROJECT_NAME)_$(filter-out $@,$(MAKECMDGOALS))
 
 build:
-	@echo "Stopping containers for $(PROJECT_NAME)..."
-	@docker-compose build
+	@echo "Building servicies for $(PROJECT_NAME)..."
+	@docker-compose -f docker-compose.yml -f docker-compose-sources.yml  build
 
 prune:
 	@echo "Removing containers for $(PROJECT_NAME)..."
-	@docker-compose down -v
+	@docker-compose -f docker-compose.yml -f docker-compose-sources.yml down -v
+
+prune-elk:
+	@echo "Removing containers for $(PROJECT_NAME)..."
+	@docker-compose -f docker-compose.yml down -v
 
 ps:
 	@docker ps --filter name='$(PROJECT_NAME)*'

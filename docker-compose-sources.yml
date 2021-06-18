@@ -1,0 +1,56 @@
+version: '3.2'
+
+services:
+  
+  postgres:
+    container_name: ${PROJECT_NAME}_postgres
+    build:
+      context: others/postgres/
+    environment:
+      POSTGRES_DB: "dspace"
+      POSTGRES_USER: "dspace"
+      POSTGRES_PASSWORD: "dspace"
+    volumes:
+      - /var/lib/postgresql/data
+      - ./others/postgres/dumps/dspace:/docker-entrypoint-initdb.d # Place init .sql file(s) here.
+    networks:
+      - elk
+
+  pgadmin4:
+      container_name: ${PROJECT_NAME}_pgadmin
+      image: dpage/pgadmin4
+      environment:
+          PGADMIN_DEFAULT_EMAIL: "user@dspace.com"
+          PGADMIN_DEFAULT_PASSWORD: "dspace"
+      ports:
+      - "82:80"
+      networks:
+        - elk
+
+  apache2:
+    container_name: ${PROJECT_NAME}_apache
+    build:
+      context: others/apache2/
+    ports:
+      - "81:80"
+
+  filebeat:
+    container_name: ${PROJECT_NAME}_filebeat
+    build: 
+      context: others/filebeat/
+    volumes:
+      - type: bind
+        source: ./others/filebeat/logs/
+        target: /var/log/
+        read_only: true
+      - type: bind
+        source: ./others/filebeat/filebeat.yml
+        target: /usr/share/filebeat/filebeat.yml
+        read_only: true
+    networks:
+      - elk
+          
+networks:
+  elk:
+    driver: bridge
+
