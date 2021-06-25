@@ -1,5 +1,5 @@
 include .env
-.PHONY: up down stop prune ps shell drush logs bash
+.PHONY: up up-elk up-sources down stop stop-elk stop-sources prune force-recreate bash logstash
 
 default: up
 
