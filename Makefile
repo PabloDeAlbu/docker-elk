@@ -23,8 +23,6 @@ force-recreate:
 	docker-compose pull
 	docker-compose  -f docker-compose.yml -f docker-compose-sources.yml up -d --force-recreate 
 
-down: stop
-
 stop:
 	@echo "Stopping containers for $(PROJECT_NAME)..."
 	@docker-compose -f docker-compose.yml -f docker-compose-sources.yml stop
@@ -40,9 +38,6 @@ stop-sources:
 logs:
 	@docker-compose -f docker-compose.yml -f docker-compose-sources.yml  logs -f --tail=10
 
-log:
-	@docker logs -f --tail=10 $(PROJECT_NAME)_$(filter-out $@,$(MAKECMDGOALS))
-
 build:
 	@echo "Building servicies for $(PROJECT_NAME)..."
 	@docker-compose -f docker-compose.yml -f docker-compose-sources.yml  build
@@ -54,9 +49,6 @@ prune:
 prune-elk:
 	@echo "Removing containers for $(PROJECT_NAME)..."
 	@docker-compose -f docker-compose.yml down -v
-
-ps:
-	@docker ps --filter name='$(PROJECT_NAME)*'
 
 bash:
 	docker exec -ti $(PROJECT_NAME)_$(filter-out $@,$(MAKECMDGOALS)) /bin/bash
