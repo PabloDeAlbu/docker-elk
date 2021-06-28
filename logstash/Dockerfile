@@ -6,3 +6,5 @@ FROM docker.elastic.co/logstash/logstash:${ELK_VERSION}
 # Add your logstash plugins setup here
 # Example: RUN logstash-plugin install logstash-filter-json
 COPY lib/postgresql-42.2.20.jar /usr/share/logstash/logstash-core/lib/jars
+
+RUN bin/logstash-plugin install logstash-filter-grok

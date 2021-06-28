@@ -5,4 +5,4 @@ filebeat.inputs:
 
 output.logstash:
   # The Logstash hosts
-  hosts: ["elk_logstash:5044"]
+  hosts: ["elk_logstash_logs:5044"]

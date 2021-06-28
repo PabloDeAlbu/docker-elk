@@ -18,6 +18,21 @@ up-sources:
 	docker-compose pull
 	docker-compose -f docker-compose-sources.yml up -d 
 
+up-items:
+	@echo "Starting up containers for $(PROJECT_NAME)..."
+	docker-compose pull
+	docker-compose -f docker-compose.yml -f logstash/indexes/items/docker-compose.override.yml -f docker-compose-sources.yml up -d 
+
+up-collections:
+	@echo "Starting up containers for $(PROJECT_NAME)..."
+	docker-compose pull
+	docker-compose -f docker-compose.yml -f logstash/indexes/collections/docker-compose.override.yml -f docker-compose-sources.yml up -d 
+
+up-logs:
+	@echo "Starting up containers for $(PROJECT_NAME)..."
+	docker-compose pull
+	docker-compose -f docker-compose.yml -f logstash/indexes/logs/docker-compose.override.yml -f docker-compose-sources.yml up -d 
+
 force-recreate:
 	@echo "Starting up containers for $(PROJECT_NAME)..."
 	docker-compose pull
