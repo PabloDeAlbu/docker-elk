@@ -1,2 +1,2 @@
 *.sql
-others/filebeat/logs/*/*.log
+logstash/indexes/logs/sources/filebeat/logs/*/*.log
