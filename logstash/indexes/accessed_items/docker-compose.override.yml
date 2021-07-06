@@ -1,0 +1,9 @@
+version: '3.2'
+services:
+    logstash:
+        container_name: ${PROJECT_NAME}_accessed_items
+        volumes:
+          - type: bind
+            source: ./logstash/indexes/accessed_items/pipeline
+            target: /usr/share/logstash/pipeline
+    

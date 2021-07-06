@@ -24,8 +24,6 @@ services:
       # Use single node discovery in order to disable production mode and avoid bootstrap checks.
       # see: https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
       discovery.type: single-node
-    networks:
-      - docker-elk_elk
 
   logstash:
     container_name: ${PROJECT_NAME}_logstash
@@ -38,15 +36,8 @@ services:
         source: ./logstash/config/logstash.yml
         target: /usr/share/logstash/config/logstash.yml
         read_only: true
-    ports:
-      - "5044:5044"
-      - "5000:5000/tcp"
-      - "5000:5000/udp"
-      - "9600:9600"
     environment:
       LS_JAVA_OPTS: "-Xmx512m -Xms512m"
-    networks:
-      - docker-elk_elk
     depends_on:
       - elasticsearch
 
@@ -63,14 +54,8 @@ services:
         read_only: true
     ports:
       - "5601:5601"
-    networks:
-      - docker-elk_elk
     depends_on:
       - elasticsearch
-
-networks:
-  docker-elk_elk:
-    external: true
 
 volumes:
   elasticsearch:

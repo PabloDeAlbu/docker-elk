@@ -14,7 +14,7 @@ services:
       - /var/lib/postgresql/data
       - ./others/postgres/dumps/dspace:/docker-entrypoint-initdb.d # Place init .sql file(s) here.
     networks:
-      - elk
+      - docker-elk_default
 
   pgadmin4:
       container_name: ${PROJECT_NAME}_pgadmin
@@ -25,32 +25,8 @@ services:
       ports:
       - "82:80"
       networks:
-        - elk
-
-  apache2:
-    container_name: ${PROJECT_NAME}_apache
-    build:
-      context: others/apache2/
-    ports:
-      - "81:80"
-
-  filebeat:
-    container_name: ${PROJECT_NAME}_filebeat
-    build: 
-      context: others/filebeat/
-    volumes:
-      - type: bind
-        source: ./others/filebeat/logs/
-        target: /var/log/
-        read_only: true
-      - type: bind
-        source: ./others/filebeat/filebeat.yml
-        target: /usr/share/filebeat/filebeat.yml
-        read_only: true
-    networks:
-      - elk
-          
+        - docker-elk_default
+         
 networks:
-  elk:
-    driver: bridge
-
+  docker-elk_default:
+    external: true

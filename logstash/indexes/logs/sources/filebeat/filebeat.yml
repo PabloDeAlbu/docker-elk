@@ -1,0 +1,8 @@
+filebeat.inputs:
+- type: log
+  paths:
+   - '/var/log/apache2/*.log'
+
+output.logstash:
+  # The Logstash hosts
+  hosts: ["elk_logstash_logs:5044"]
