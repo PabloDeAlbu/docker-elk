@@ -1,6 +1,6 @@
 # Elastic stack (ELK) on Docker
 
-[![Elastic Stack version](https://img.shields.io/badge/Elastic%20Stack-7.13.0-00bfb3?style=flat&logo=elastic-stack)](https://www.elastic.co/blog/category/releases)
+[![Elastic Stack version](https://img.shields.io/badge/Elastic%20Stack-7.15.0-00bfb3?style=flat&logo=elastic-stack)](https://www.elastic.co/blog/category/releases)
 [![Build Status](https://github.com/deviantony/docker-elk/workflows/CI/badge.svg?branch=main)](https://github.com/deviantony/docker-elk/actions?query=workflow%3ACI+branch%3Amain)
 [![Join the chat at https://gitter.im/deviantony/docker-elk](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/deviantony/docker-elk?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -43,7 +43,7 @@ own_. [sherifabdlnaby/elastdocker][elastdocker] is one example among others of p
 1. [Requirements](#requirements)
    * [Host setup](#host-setup)
    * [SELinux](#selinux)
-   * [Docker for Desktop](#docker-for-desktop)
+   * [Docker Desktop](#docker-desktop)
      * [Windows](#windows)
      * [macOS](#macos)
 1. [Usage](#usage)
@@ -105,17 +105,18 @@ apply the proper context:
 $ chcon -R system_u:object_r:admin_home_t:s0 docker-elk/
 ```
 
-### Docker for Desktop
+### Docker Desktop
 
 #### Windows
 
-Ensure the [Shared Drives][win-shareddrives] feature is enabled for the `C:` drive.
+If you are using the legacy Hyper-V mode of _Docker Desktop for Windows_, ensure [File Sharing][win-filesharing] is
+enabled for the `C:` drive.
 
 #### macOS
 
-The default Docker for Mac configuration allows mounting files from `/Users/`, `/Volumes/`, `/private/`, and `/tmp`
-exclusively. Make sure the repository is cloned in one of those locations or follow the instructions from the
-[documentation][mac-mounts] to add more locations.
+The default configuration of _Docker Desktop for Mac_ allows mounting files from `/Users/`, `/Volume/`, `/private/`,
+`/tmp` and `/var/folders` exclusively. Make sure the repository is cloned in one of those locations or follow the
+instructions from the [documentation][mac-filesharing] to add more locations.
 
 ## Usage
 
@@ -207,8 +208,8 @@ users][builtin-users] instead for increased security.
     $ docker-compose restart kibana logstash
     ```
 
-    *:information_source: Learn more about the security of the Elastic stack at [Tutorial: Getting started with
-    security][sec-tutorial].*
+    *:information_source: Learn more about the security of the Elastic stack at [Secure the Elastic
+    Stack][sec-cluster].*
 
 ### Injecting data
 
@@ -256,7 +257,7 @@ Create an index pattern via the Kibana API:
 ```console
 $ curl -XPOST -D- 'http://localhost:5601/api/saved_objects/index-pattern' \
     -H 'Content-Type: application/json' \
-    -H 'kbn-version: 7.13.0' \
+    -H 'kbn-version: 7.15.0' \
     -u elastic:<your generated elastic password> \
     -d '{"attributes":{"title":"logstash-*","timeFieldName":"@timestamp"}}'
 ```
@@ -430,12 +431,12 @@ instead of `elasticsearch`.*
 [booststap-checks]: https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
 [es-sys-config]: https://www.elastic.co/guide/en/elasticsearch/reference/current/system-config.html
 
-[win-shareddrives]: https://docs.docker.com/docker-for-windows/#shared-drives
-[mac-mounts]: https://docs.docker.com/docker-for-mac/osxfs/
+[win-filesharing]: https://docs.docker.com/desktop/windows/#file-sharing
+[mac-filesharing]: https://docs.docker.com/desktop/mac/#file-sharing
 
 [builtin-users]: https://www.elastic.co/guide/en/elasticsearch/reference/current/built-in-users.html
 [ls-security]: https://www.elastic.co/guide/en/logstash/current/ls-security.html
-[sec-tutorial]: https://www.elastic.co/guide/en/elasticsearch/reference/current/security-getting-started.html
+[sec-cluster]: https://www.elastic.co/guide/en/elasticsearch/reference/current/secure-cluster.html
 
 [connect-kibana]: https://www.elastic.co/guide/en/kibana/current/connect-to-elasticsearch.html
 [index-pattern]: https://www.elastic.co/guide/en/kibana/current/index-patterns.html
