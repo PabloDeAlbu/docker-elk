@@ -1,0 +1,24 @@
+version: '3.2'
+services:
+  logstash:
+      container_name: ${PROJECT_NAME}_logstash_logs_test
+      volumes:
+        - type: bind
+          source: ./logstash/indexes/apache2/pipeline.test
+          target: /usr/share/logstash/pipeline
+  
+  filebeat:
+    container_name: ${PROJECT_NAME}_filebeat_apache2_test
+    build: 
+      context: ./logstash/indexes/apache2/sources/filebeat/
+    volumes:
+      - type: bind
+        source: ./logstash/indexes/apache2/sources/filebeat/logs/
+        target: /var/log/
+        read_only: true
+      - type: bind
+        source: ./logstash/indexes/apache2/sources/filebeat/filebeat.yml
+        target: /usr/share/filebeat/filebeat.yml
+        read_only: true
+    depends_on: 
+      - logstash

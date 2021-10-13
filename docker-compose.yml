@@ -40,6 +40,8 @@ services:
       LS_JAVA_OPTS: "-Xmx512m -Xms512m"
     depends_on:
       - elasticsearch
+    ports:
+      - "5044:5044"
 
   kibana:
     container_name: ${PROJECT_NAME}_kibana

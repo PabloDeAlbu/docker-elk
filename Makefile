@@ -34,6 +34,16 @@ up-logs:
 	docker-compose pull
 	docker-compose -f docker-compose.yml -f logstash/indexes/logs/docker-compose.override.yml up -d 
 
+up-apache2:
+	@echo "Starting up containers for $(PROJECT_NAME)..."
+	docker-compose pull
+	docker-compose -f docker-compose.yml -f logstash/indexes/apache2/docker-compose.apache2.yml up -d 
+
+up-apache2-test:
+	@echo "Starting up containers for $(PROJECT_NAME)..."
+	docker-compose pull
+	docker-compose -f docker-compose.yml -f logstash/indexes/apache2/docker-compose.apache2.yml  -f logstash/indexes/apache2/docker-compose.apache2.test.yml up -d 
+
 up-accessed_items:
 	@echo "Starting up containers for $(PROJECT_NAME)..."
 	docker-compose pull

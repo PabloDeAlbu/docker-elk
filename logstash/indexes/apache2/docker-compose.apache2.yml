@@ -1,0 +1,8 @@
+version: '3.2'
+services:
+  logstash:
+      container_name: ${PROJECT_NAME}_logstash_logs
+      volumes:
+        - type: bind
+          source: ./logstash/indexes/apache2/pipeline
+          target: /usr/share/logstash/pipeline
