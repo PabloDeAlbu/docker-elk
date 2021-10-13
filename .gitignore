@@ -1,3 +1,4 @@
 *.sql
-logstash/indexes/logs/sources/filebeat/logs/*/*.log
-logstash/indexes/apache2/sources/filebeat/logs/*/*.log
+
+logstash/indexes/*/sources/filebeat/logs/*/*
+!logstash/indexes/*/sources/filebeat/logs/*/README
