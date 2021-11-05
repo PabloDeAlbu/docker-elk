@@ -5,17 +5,10 @@ default: up
 
 up:
 	@echo "Starting up containers for $(PROJECT_NAME)..."
-	docker-compose pull
-	docker-compose -f docker-compose.yml -f docker-compose-sources.yml up -d 
-
-up-elk:
-	@echo "Starting up containers for $(PROJECT_NAME)..."
-	docker-compose pull
 	docker-compose -f docker-compose.yml up -d 
 
-up-sources:
+up-postgres:
 	@echo "Starting up containers for $(PROJECT_NAME)..."
-	docker-compose pull
 	docker-compose -f docker-compose-sources.yml up -d 
 
 up-items:
@@ -43,6 +36,16 @@ up-apache2-test:
 	@echo "Starting up containers for $(PROJECT_NAME)..."
 	docker-compose pull
 	docker-compose -f docker-compose.yml -f logstash/indexes/apache2/docker-compose.apache2.yml  -f logstash/indexes/apache2/docker-compose.apache2.test.yml up -d 
+
+up-dspace:
+	@echo "Starting up containers for $(PROJECT_NAME)..."
+	docker-compose pull
+	docker-compose -f docker-compose.yml -f logstash/indexes/dspace/docker-compose.dspace.yml up -d 
+
+up-dspace-test:
+	@echo "Starting up containers for $(PROJECT_NAME)..."
+	docker-compose pull
+	docker-compose -f docker-compose.yml -f logstash/indexes/dspace/docker-compose.dspace.yml  -f logstash/indexes/dspace/docker-compose.dspace.test.yml up -d 
 
 up-accessed_items:
 	@echo "Starting up containers for $(PROJECT_NAME)..."

@@ -1,0 +1,10 @@
+name: apache2-test
+
+filebeat.inputs:
+- type: log
+  paths:
+   - '/var/log/dspace/*.log'
+
+output.logstash:
+  # The Logstash hosts
+  hosts: ["elk_logstash_dspace_test:5044"]

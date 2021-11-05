@@ -1,0 +1,24 @@
+version: '3.2'
+services:
+  logstash:
+    container_name: ${PROJECT_NAME}_logstash_dspace_test
+    volumes:
+      - type: bind
+        source: ./logstash/indexes/dspace/pipeline.test
+        target: /usr/share/logstash/pipeline
+  
+  filebeat:
+    container_name: ${PROJECT_NAME}_filebeat_dspace_test
+    build: 
+      context: ./logstash/indexes/dspace/sources/filebeat/
+    volumes:
+      - type: bind
+        source: ./logstash/indexes/dspace/sources/filebeat/logs/dspace/
+        target: /var/log/dspace/
+        read_only: true
+      - type: bind
+        source: ./logstash/indexes/dspace/sources/filebeat/filebeat.yml
+        target: /usr/share/filebeat/filebeat.yml
+        read_only: true
+    depends_on: 
+      - logstash

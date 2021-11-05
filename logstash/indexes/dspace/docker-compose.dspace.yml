@@ -1,0 +1,8 @@
+version: '3.2'
+services:
+  logstash:
+    container_name: ${PROJECT_NAME}_logstash_dspace
+    volumes:
+      - type: bind
+        source: ./logstash/indexes/dspace/pipeline
+        target: /usr/share/logstash/pipeline
