@@ -8,3 +8,12 @@ filebeat.inputs:
 output.logstash:
   # The Logstash hosts
   hosts: ["elk_logstash_dspace_test:5044"]
+
+logging.level: info
+logging.to_files: true
+logging.files:
+  path: /var/log/filebeat
+  name: filebeat.log
+  keepfiles: 7
+  permissions: 0644
+
